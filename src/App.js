@@ -1,8 +1,7 @@
 import React from 'react';
-import JumboTron from './components/JumboTron';
-
+import UserContainer from './components/UserContainer'
 function App() {
-  return <JumboTron/>
+  return <UserContainer/>
 }
 
 export default App;
