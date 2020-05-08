@@ -4,14 +4,25 @@ import axios from "axios";
 class UserContainer extends React.Component {
   state = {
     users: [],
-    search: ""
+    search: "",
+    sortDirection: "",
+    colToSort: ""
   };
 
   componentDidMount() {
     axios
       .get("https://randomuser.me/api/?results=50&nat=US")
       .then(res => {
-        this.setState({ users: res.data.results });
+        const userArray = res.data.results.map(user => {
+          return {
+            first: user.name.first,
+            last: user.name.last,
+            email: user.email,
+            dob: user.dob.date,
+            image: user.picture.medium
+          };
+        });
+        this.setState({ users: userArray });
       })
       .catch(err => console.log(err));
   }
@@ -20,39 +31,57 @@ class UserContainer extends React.Component {
     this.setState({ search: e.target.value });
   };
 
+  handleSortDirectionChange = () => {
+    this.state.sortDirection === "ascending"
+      ? this.setState({ sortDirection: "descending" })
+      : this.setState({ sortDirection: "ascending" });
+  };
+
   filteredUsers() {
     const search = this.state.search.toLowerCase();
     return this.state.users.filter(user => {
       return (
-        user.name.first.toLowerCase().includes(search) ||
-        user.name.last.toLowerCase().includes(search)
+        user.first.toLowerCase().includes(search) ||
+        user.last.toLowerCase().includes(search)
       );
     });
   }
 
   renderUsers = () => {
-    return this.filteredUsers().map((user, index) => {
-      return (
-        <tr key={index}>
-          <td>{user.name.first}</td>
-          <td>{user.name.last}</td>
-          <td>{user.dob.date}</td>
-        </tr>
-      );
-    });
+    return this.filteredUsers()
+      .sort(this.sortUsers)
+      .map((user, index) => {
+        return (
+          <tr key={index}>
+            <td><img src={user.image} alt="user"></img></td>
+            <td>{user.first}</td>
+            <td>{user.last}</td>
+            <td>{user.email}</td>
+            <td>{user.dob}</td>
+          </tr>
+        );
+      });
+  };
+
+  sortUsers = (a, b) => {
+    if (a.first < b.first) {
+      return this.state.sortDirection === "ascending" ? -1 : 1;
+    } else if (a.first > b.first) {
+      return this.state.sortDirection === "ascending" ? 1 : -1;
+    }
+    return 0;
   };
 
   render() {
     return (
       <>
         <div className="input-group mb-3">
-          <div className="input-group-prepend">
-          </div>
+          <div className="input-group-prepend"></div>
           <input
             onChange={this.handleSearchChange}
-            type="text"
+            type="search"
             className="form-control"
-            placeholder="Search...for whatever you want really"
+            placeholder="Search...for whatever you want"
             aria-label="SearchBox"
             aria-describedby="basic-addon1"
           />
@@ -60,8 +89,16 @@ class UserContainer extends React.Component {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th scope="col">First</th>
+              <th scope="col">Image</th>
+              <th
+                scope="col"
+                onClick={this.handleSortDirectionChange}
+                col="first"
+              >
+                First
+              </th>
               <th scope="col">Last</th>
+              <th scope="col">Email</th>
               <th scope="col">DOB</th>
             </tr>
           </thead>
