@@ -23,7 +23,10 @@ class UserContainer extends React.Component {
   filteredUsers() {
     const search = this.state.search.toLowerCase();
     return this.state.users.filter(user => {
-      return user.name.first.toLowerCase().includes(search);
+      return (
+        user.name.first.toLowerCase().includes(search) ||
+        user.name.last.toLowerCase().includes(search)
+      );
     });
   }
 
@@ -44,15 +47,12 @@ class UserContainer extends React.Component {
       <>
         <div className="input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text" id="basic-addon1">
-              Search
-            </span>
           </div>
           <input
             onChange={this.handleSearchChange}
             type="text"
             className="form-control"
-            placeholder=""
+            placeholder="Search...for whatever you want really"
             aria-label="SearchBox"
             aria-describedby="basic-addon1"
           />
