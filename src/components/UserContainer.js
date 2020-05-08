@@ -3,20 +3,32 @@ import axios from "axios";
 
 class UserContainer extends React.Component {
   state = {
-    users: []
+    users: [],
+    search: ""
   };
 
   componentDidMount() {
     axios
-      .get("https://randomuser.me/api/?results=10&nat=US")
+      .get("https://randomuser.me/api/?results=50&nat=US")
       .then(res => {
         this.setState({ users: res.data.results });
       })
       .catch(err => console.log(err));
   }
 
+  handleSearchChange = e => {
+    this.setState({ search: e.target.value });
+  };
+
+  filteredUsers() {
+    const search = this.state.search.toLowerCase();
+    return this.state.users.filter(user => {
+      return user.name.first.toLowerCase().includes(search);
+    });
+  }
+
   renderUsers = () => {
-    return this.state.users.map((user, index) => {
+    return this.filteredUsers().map((user, index) => {
       return (
         <tr key={index}>
           <td>{user.name.first}</td>
@@ -37,11 +49,11 @@ class UserContainer extends React.Component {
             </span>
           </div>
           <input
-            onChange={}
+            onChange={this.handleSearchChange}
             type="text"
             className="form-control"
-            placeholder="Username"
-            aria-label="Username"
+            placeholder=""
+            aria-label="SearchBox"
             aria-describedby="basic-addon1"
           />
         </div>
