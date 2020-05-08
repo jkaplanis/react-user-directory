@@ -53,17 +53,17 @@ class UserContainer extends React.Component {
             <td>{user.first}</td>
             <td>{user.last}</td>
             <td>{user.email}</td>
-            <td>{user.dob}</td>
+            <td>{new Date(user.dob).toDateString()}</td>
           </tr>
         );
       });
   };
 
-  handleSortDirectionChange = () => {
+  handleSortDirectionChange = (col) => {
 
     this.state.sortDirection === "ascending"
-      ? this.setState({ sortDirection: "descending", col: "first" })
-      : this.setState({ sortDirection: "ascending", col: "first" });
+      ? this.setState({ sortDirection: "descending", col: col })
+      : this.setState({ sortDirection: "ascending", col: col });
   };
 
   sortUsers = (a, b) => {
@@ -96,13 +96,13 @@ class UserContainer extends React.Component {
               <th
                 scope="col"
                 column="first"
-                onClick={this.handleSortDirectionChange}
+                onClick={() => this.handleSortDirectionChange("first")}
               >
                 First
               </th>
-              <th scope="col">Last</th>
-              <th scope="col">Email</th>
-              <th scope="col">DOB</th>
+              <th scope="col" onClick={() => this.handleSortDirectionChange("last")}>Last</th>
+              <th scope="col" onClick={() => this.handleSortDirectionChange("email")}>Email</th>
+              <th scope="col" onClick={() => this.handleSortDirectionChange("dob")}>DOB</th>
             </tr>
           </thead>
           <tbody>{this.renderUsers()}</tbody>
