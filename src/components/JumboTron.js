@@ -1,5 +1,4 @@
 import React from "react";
-import UserTable from "./UserTable";
 
 function JumboTron() {
   return (
@@ -13,7 +12,6 @@ function JumboTron() {
         </p>
       </div>
     </div>
-    <UserTable/>
     </div>
   );
 }

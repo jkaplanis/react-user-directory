@@ -10,7 +10,6 @@ class UserContainer extends React.Component {
     axios
       .get("https://randomuser.me/api/?results=10&nat=US")
       .then(res => {
-        console.log(res.data.results);
         this.setState({ users: res.data.results });
       })
       .catch(err => console.log(err));
@@ -29,18 +28,34 @@ class UserContainer extends React.Component {
   };
 
   render() {
-    console.log(this.state.users);
     return (
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">DOB</th>
-          </tr>
-        </thead>
-        <tbody>{this.renderUsers()}</tbody>
-      </table>
+      <>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="basic-addon1">
+              Search
+            </span>
+          </div>
+          <input
+            onChange={}
+            type="text"
+            className="form-control"
+            placeholder="Username"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">DOB</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderUsers()}</tbody>
+        </table>
+      </>
     );
   }
 }
