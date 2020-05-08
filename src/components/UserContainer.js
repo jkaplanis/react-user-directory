@@ -6,7 +6,7 @@ class UserContainer extends React.Component {
     users: [],
     search: "",
     sortDirection: "",
-    colToSort: ""
+    col: ""
   };
 
   componentDidMount() {
@@ -31,12 +31,6 @@ class UserContainer extends React.Component {
     this.setState({ search: e.target.value });
   };
 
-  handleSortDirectionChange = () => {
-    this.state.sortDirection === "ascending"
-      ? this.setState({ sortDirection: "descending" })
-      : this.setState({ sortDirection: "ascending" });
-  };
-
   filteredUsers() {
     const search = this.state.search.toLowerCase();
     return this.state.users.filter(user => {
@@ -53,7 +47,9 @@ class UserContainer extends React.Component {
       .map((user, index) => {
         return (
           <tr key={index}>
-            <td><img src={user.image} alt="user"></img></td>
+            <td>
+              <img src={user.image} alt="user"></img>
+            </td>
             <td>{user.first}</td>
             <td>{user.last}</td>
             <td>{user.email}</td>
@@ -63,10 +59,17 @@ class UserContainer extends React.Component {
       });
   };
 
+  handleSortDirectionChange = () => {
+
+    this.state.sortDirection === "ascending"
+      ? this.setState({ sortDirection: "descending", col: "first" })
+      : this.setState({ sortDirection: "ascending", col: "first" });
+  };
+
   sortUsers = (a, b) => {
-    if (a.first < b.first) {
+    if (a[this.state.col] < b[this.state.col]) {
       return this.state.sortDirection === "ascending" ? -1 : 1;
-    } else if (a.first > b.first) {
+    } else if (a[this.state.col] > b[this.state.col]) {
       return this.state.sortDirection === "ascending" ? 1 : -1;
     }
     return 0;
@@ -92,8 +95,8 @@ class UserContainer extends React.Component {
               <th scope="col">Image</th>
               <th
                 scope="col"
+                column="first"
                 onClick={this.handleSortDirectionChange}
-                col="first"
               >
                 First
               </th>
