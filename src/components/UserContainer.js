@@ -1,6 +1,6 @@
 import React from "react";
-import axios from "axios";
 import "./usercontainer.css";
+import API from "../utils/API";
 
 class UserContainer extends React.Component {
   state = {
@@ -11,8 +11,7 @@ class UserContainer extends React.Component {
   };
 
   componentDidMount() {
-    axios
-      .get("https://randomuser.me/api/?results=50&nat=US")
+    API.usersList()
       .then(res => {
         const userArray = res.data.results.map(user => {
           return {
