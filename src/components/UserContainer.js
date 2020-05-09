@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import "./usercontainer.css";
 
 class UserContainer extends React.Component {
   state = {
@@ -59,9 +60,14 @@ class UserContainer extends React.Component {
       });
   };
 
-  handleSortDirectionChange = (col) => {
+  getHeaderClassName = col => {
+    return this.state.col === col
+      ? `clickable ${this.state.sortDirection}`
+      : `clickable`;
+  };
 
-    this.state.sortDirection === "ascending"
+  handleSortDirectionChange = col => {
+    this.state.col === col && this.state.sortDirection === "ascending"
       ? this.setState({ sortDirection: "descending", col: col })
       : this.setState({ sortDirection: "ascending", col: col });
   };
@@ -93,16 +99,40 @@ class UserContainer extends React.Component {
           <thead>
             <tr>
               <th scope="col">Image</th>
-              <th
-                scope="col"
-                column="first"
-                onClick={() => this.handleSortDirectionChange("first")}
-              >
-                First
+              <th scope="col">
+                <span
+                  className={this.getHeaderClassName("first")}
+                  onClick={() => {
+                    this.handleSortDirectionChange("first");
+                  }}
+                >
+                  First
+                </span>
               </th>
-              <th scope="col" onClick={() => this.handleSortDirectionChange("last")}>Last</th>
-              <th scope="col" onClick={() => this.handleSortDirectionChange("email")}>Email</th>
-              <th scope="col" onClick={() => this.handleSortDirectionChange("dob")}>DOB</th>
+              <th scope="col">
+                <span
+                  className={this.getHeaderClassName("last")}
+                  onClick={() => this.handleSortDirectionChange("last")}
+                >
+                  Last
+                </span>
+              </th>
+              <th scope="col">
+                <span
+                  className={this.getHeaderClassName("email")}
+                  onClick={() => this.handleSortDirectionChange("email")}
+                >
+                  Email
+                </span>
+              </th>
+              <th scope="col">
+                <span
+                  className={this.getHeaderClassName("dob")}
+                  onClick={() => this.handleSortDirectionChange("dob")}
+                >
+                  DOB
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody>{this.renderUsers()}</tbody>
