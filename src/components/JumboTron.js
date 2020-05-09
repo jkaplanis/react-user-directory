@@ -1,17 +1,13 @@
+import "./styles.css";
 import React from "react";
 
 function JumboTron() {
   return (
-    <div>
-    <div className="jumbotron jumbotron-fluid">
+    <div className="jumbotron jumbotron-fluid text-center">
       <div className="container">
-        <h1 className="display-4">Employees List</h1>
-        <p className="lead">
-          This is a list of user's hopefully an interesting list if I can get
-          the API to work.
-        </p>
+        <h1 className="display-4">Employee Directory</h1>
+        <p className="lead">Click on a header to sort or search below</p>
       </div>
-    </div>
     </div>
   );
 }

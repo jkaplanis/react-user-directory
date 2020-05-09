@@ -1,5 +1,5 @@
 import React from "react";
-import "./usercontainer.css";
+import "./styles.css";
 import API from "../utils/API";
 
 class UserContainer extends React.Component {
@@ -83,59 +83,61 @@ class UserContainer extends React.Component {
   render() {
     return (
       <>
-        <div className="input-group mb-3">
+        <div className="input-group justify-content-center">
           <div className="input-group-prepend"></div>
           <input
             onChange={this.handleSearchChange}
             type="search"
-            className="form-control"
-            placeholder="Search...for whatever you want"
+            className="form-control m-3"
+            placeholder="Search"
             aria-label="SearchBox"
             aria-describedby="basic-addon1"
           />
         </div>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Image</th>
-              <th scope="col">
-                <span
-                  className={this.getHeaderClassName("first")}
-                  onClick={() => {
-                    this.handleSortDirectionChange("first");
-                  }}
-                >
-                  First
-                </span>
-              </th>
-              <th scope="col">
-                <span
-                  className={this.getHeaderClassName("last")}
-                  onClick={() => this.handleSortDirectionChange("last")}
-                >
-                  Last
-                </span>
-              </th>
-              <th scope="col">
-                <span
-                  className={this.getHeaderClassName("email")}
-                  onClick={() => this.handleSortDirectionChange("email")}
-                >
-                  Email
-                </span>
-              </th>
-              <th scope="col">
-                <span
-                  className={this.getHeaderClassName("dob")}
-                  onClick={() => this.handleSortDirectionChange("dob")}
-                >
-                  DOB
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>{this.renderUsers()}</tbody>
-        </table>
+        <div className="table m-3">
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Image</th>
+                <th scope="col">
+                  <span
+                    className={this.getHeaderClassName("first")}
+                    onClick={() => {
+                      this.handleSortDirectionChange("first");
+                    }}
+                  >
+                    First
+                  </span>
+                </th>
+                <th scope="col">
+                  <span
+                    className={this.getHeaderClassName("last")}
+                    onClick={() => this.handleSortDirectionChange("last")}
+                  >
+                    Last
+                  </span>
+                </th>
+                <th scope="col">
+                  <span
+                    className={this.getHeaderClassName("email")}
+                    onClick={() => this.handleSortDirectionChange("email")}
+                  >
+                    Email
+                  </span>
+                </th>
+                <th scope="col">
+                  <span
+                    className={this.getHeaderClassName("dob")}
+                    onClick={() => this.handleSortDirectionChange("dob")}
+                  >
+                    DOB
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>{this.renderUsers()}</tbody>
+          </table>
+        </div>
       </>
     );
   }
