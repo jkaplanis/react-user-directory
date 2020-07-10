@@ -3,6 +3,7 @@ import "./styles.css";
 import API from "../utils/API";
 
 class UserContainer extends React.Component {
+  //set initial state
   state = {
     users: [],
     search: "",
@@ -10,6 +11,9 @@ class UserContainer extends React.Component {
     col: ""
   };
 
+  //after the component mounts, send a get request to retrieve the users.
+  //Map over the response to create an array of user objects.
+  //Use setState to add the array to our users state.
   componentDidMount() {
     API.usersList()
       .then(res => {
@@ -27,10 +31,12 @@ class UserContainer extends React.Component {
       .catch(err => console.log(err));
   }
 
+  //function to update search state each time the user types a character
   handleSearchChange = e => {
     this.setState({ search: e.target.value });
   };
 
+  //function to filter list to only show first/last that matches search
   filteredUsers() {
     const search = this.state.search.toLowerCase();
     return this.state.users.filter(user => {
@@ -41,6 +47,7 @@ class UserContainer extends React.Component {
     });
   }
 
+  //function to render a table of users
   renderUsers = () => {
     return this.filteredUsers()
       .sort(this.sortUsers)
@@ -59,18 +66,23 @@ class UserContainer extends React.Component {
       });
   };
 
+  //depending on which column was clicked, add or remove the arrow
+  //icon specifying the sort direction
   getHeaderClassName = col => {
     return this.state.col === col
       ? `clickable ${this.state.sortDirection}`
       : `clickable`;
   };
 
+  //depending on which column was clicked, set the sort direction to
+  //the opposite of what it was.
   handleSortDirectionChange = col => {
     this.state.col === col && this.state.sortDirection === "ascending"
       ? this.setState({ sortDirection: "descending", col: col })
       : this.setState({ sortDirection: "ascending", col: col });
   };
 
+  //function to return 1 or -1 to sort function depending on sort direction
   sortUsers = (a, b) => {
     if (a[this.state.col] < b[this.state.col]) {
       return this.state.sortDirection === "ascending" ? -1 : 1;
@@ -80,6 +92,7 @@ class UserContainer extends React.Component {
     return 0;
   };
 
+  //render the user container including search field
   render() {
     return (
       <>
